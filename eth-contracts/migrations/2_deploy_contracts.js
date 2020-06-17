@@ -1,5 +1,5 @@
 // migrating the appropriate contracts
-var verifier = artifacts.require("./verifier.sol");
+var verifier = artifacts.require("./Verifier.sol");
 var SolnSquareVerifier = artifacts.require("./SolnSquareVerifier.sol");
 
 module.exports = function(deployer) {

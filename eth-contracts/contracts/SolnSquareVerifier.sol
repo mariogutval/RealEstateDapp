@@ -4,15 +4,14 @@ import "./ERC721Mintable.sol";
 
 // TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
 import "./verifier.sol";
-contract verifier is Verifier{}
 
 // TODO define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
 contract SolnSquareVerifier is CustomERC721Token {
 
-    verifier verifierContract;
+    Verifier verifierContract;
 
     constructor(address verifierContractAddress) public {
-        verifierContract = verifier(verifierContractAddress);
+        verifierContract = Verifier(verifierContractAddress);
     }
 
     // TODO define a solutions struct that can hold an index & an address
