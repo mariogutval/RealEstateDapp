@@ -1,5 +1,5 @@
 // This file is LGPL3 Licensed
-pragma solidity >=0.6.1;
+pragma solidity >=0.5.16;
 
 /**
  * @title Elliptic curve operations on twist points for alt_bn128
