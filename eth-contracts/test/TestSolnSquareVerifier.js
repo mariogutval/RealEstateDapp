@@ -25,18 +25,18 @@ contract('TestSolnSquareVerifier', accounts => {
     it('can add a new solution for contract', async function () {
         let minted = await this.contract.mintNewMKN(1, this.owner, proof.a, proof.b, proof.c, inputs);
         
-        var event1 = await this.contract.SolutionLength(function(error, result) {
-            if (!error)console.log(result);
-        });
+        // var event1 = await this.contract.SolutionLength(function(error, result) {
+        //     if (!error)console.log(result);
+        // });
 
-        var event2 = await this.contract.TotalSupply(function(error, result) {
-            if (!error)console.log(result);
-        });
+        // var event2 = await this.contract.TotalSupply(function(error, result) {
+        //     if (!error)console.log(result);
+        // });
 
-        truffleAssert.eventEmitted(minted, 'ThisEventDoesNotExist');
+        // truffleAssert.eventEmitted(minted, 'ThisEventDoesNotExist');
 
-        truffleAssert.eventEmitted(minted, 'SolutionLength');
-        truffleAssert.eventEmitted(minted, 'TotalSupply');
+        // truffleAssert.eventEmitted(minted, 'SolutionLength');
+        // truffleAssert.eventEmitted(minted, 'TotalSupply');
         truffleAssert.eventEmitted(minted, 'SolutionAdded');
     })
 

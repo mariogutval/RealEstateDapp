@@ -41,16 +41,16 @@ contract SolnSquareVerifier is MKN_ERC721Token {
         require((uniqueSolutions[solutionHash].tokenId == 0) && (uniqueSolutions[solutionHash].solutionAddress == address(0)), 'Solution has been used before.');
         uniqueSolutions[solutionHash] = Solution(_tokenId, _solutioner);
         solutions.push(Solution(_tokenId, _solutioner));
-        
-        emit SolutionLength(solutions.length);
-        emit TotalSupply(totalSupply());
+
+        // emit SolutionLength(solutions.length);
+        // emit TotalSupply(totalSupply());
 
         emit SolutionAdded(_tokenId, _solutioner, solutionHash);
-        // require(totalSupply() == solutions.length, "Total token supply does not coincide with the number of solutions.");
+        require(totalSupply() == solutions.length, "Total token supply does not coincide with the number of solutions.");
         mint(_solutioner, _tokenId);
         return solutions.length;
     }
 
-    event SolutionLength(uint);
-    event TotalSupply(uint);
+    // event SolutionLength(uint);
+    // event TotalSupply(uint);
 }
