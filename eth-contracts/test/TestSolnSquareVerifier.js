@@ -37,7 +37,7 @@ contract('TestSolnSquareVerifier', accounts => {
 
         // truffleAssert.eventEmitted(minted, 'SolutionLength');
         // truffleAssert.eventEmitted(minted, 'TotalSupply');
-        truffleAssert.eventEmitted(minted, 'SolutionAdded');
+        // truffleAssert.eventEmitted(minted, 'SolutionAdded');
     })
 
     // Test if an ERC721 token can be minted for contract - SolnSquareVerifier
