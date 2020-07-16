@@ -3,10 +3,10 @@ pragma solidity >=0.4.21;
 import "./ERC721Mintable.sol";
 
 // TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
-import "./verifier.sol";
+import "./Verifier.sol";
 
 // TODO define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
-contract SolnSquareVerifier is CustomERC721Token {
+contract SolnSquareVerifier is MKN_ERC721Token {
 
     Verifier verifierContract;
 
@@ -16,7 +16,7 @@ contract SolnSquareVerifier is CustomERC721Token {
 
     // TODO define a solutions struct that can hold an index & an address
     struct Solution {
-        uint index;
+        uint tokenId;
         address solutionAddress;
     }
 
@@ -24,30 +24,33 @@ contract SolnSquareVerifier is CustomERC721Token {
     Solution[] solutions;
 
     // TODO define a mapping to store unique solutions submitted
-    mapping(bytes32 => address) uniqueSolutions;
+    mapping(bytes32 => Solution) uniqueSolutions;
 
 
     // TODO Create an event to emit when a solution is added
-    event SolutionAdded(address solutioner);
+    event SolutionAdded(uint256 tokenId, address solutioner, bytes32 solutionHash);
 
     // TODO Create a function to add the solutions to the array and emit the event
-    function addSolution(uint _index, address _solutioner) public {
-        solutions.push(Solution(_index, _solutioner));
-        emit SolutionAdded(_solutioner);
-    }
-
-
-
     // TODO Create a function to mint new MKN only after the solution has been verified
     //  - make sure the solution is unique (has not been used before)
-    //  - make sure you handle metadata as well as tokenSuply
+    //  - make sure you handle metadata as well as tokenSupply
 
-    function mintNewMKN(address _address, uint256 _id, uint[2] memory _a, uint[2][2] memory _b, uint[2] memory _c, uint[2] memory _input) public returns (bool) {
-        require(verifierContract.verifyTx(_a, _b, _c, _input), "solution is not valid");
-        bytes32 solutionHash = keccak256(abi.encodePacked(_a, _b, _c, _input));
-        require(uniqueSolutions[solutionHash] == address(0), "The solution has already been used.");
-        uniqueSolutions[solutionHash] = _address;
-        addSolution(_id, _address);
-        return mint(_address, _id);
+    function mintNewMKN(uint256 _tokenId, address _solutioner, uint[2] memory _a, uint[2][2] memory _b, uint[2] memory _c, uint[2] memory _inputs) public returns (uint) {
+        require(verifierContract.verifyTx(_a, _b, _c, _inputs) == true, 'Invalid proof.');
+        bytes32 solutionHash = keccak256(abi.encodePacked(_a, _b, _c, _inputs));
+        require((uniqueSolutions[solutionHash].tokenId == 0) && (uniqueSolutions[solutionHash].solutionAddress == address(0)), 'Solution has been used before.');
+        uniqueSolutions[solutionHash] = Solution(_tokenId, _solutioner);
+        solutions.push(Solution(_tokenId, _solutioner));
+        
+        emit SolutionLength(solutions.length);
+        emit TotalSupply(totalSupply());
+
+        emit SolutionAdded(_tokenId, _solutioner, solutionHash);
+        // require(totalSupply() == solutions.length, "Total token supply does not coincide with the number of solutions.");
+        mint(_solutioner, _tokenId);
+        return solutions.length;
     }
+
+    event SolutionLength(uint);
+    event TotalSupply(uint);
 }
