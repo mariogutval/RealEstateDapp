@@ -37,6 +37,7 @@ Then, run the following commands:
 * [Interactive zero knowledge 3-colorability demonstration](http://web.mit.edu/~ezyang/Public/graph/svg.html)
 * [Docker](https://docs.docker.com/install/)
 * [ZoKrates](https://github.com/Zokrates/ZoKrates)
+* [Truffle-assertions module](https://github.com/rkalis/truffle-assertions)
 
 # Contract ABI
 
