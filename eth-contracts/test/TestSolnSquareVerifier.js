@@ -1,4 +1,4 @@
-var SolnSquareVerifier = artifacts.require('SolnSquareVerifier');
+var SolnSquareVerifier = artifacts.require('./SolnSquareVerifier');
 var verifier = artifacts.require("./Verifier.sol");
 const truffleAssert = require('truffle-assertions');
 
@@ -23,8 +23,7 @@ contract('TestSolnSquareVerifier', accounts => {
 
     // Test if a new solution can be added for contract - SolnSquareVerifier
     it('can add a new solution for contract', async function () {
-        let minted = await this.contract.mintNewMKN(1, this.owner, proof.a, proof.b, proof.c, inputs);
-        
+               
         // var event1 = await this.contract.SolutionLength(function(error, result) {
         //     if (!error)console.log(result);
         // });
@@ -33,22 +32,26 @@ contract('TestSolnSquareVerifier', accounts => {
         //     if (!error)console.log(result);
         // });
 
+        // let supply = await this.contract.totalSupply();
+        // console.log(supply);
+
+        // let length = await this.contract.solutionsLength();
+        // console.log(length);
         // truffleAssert.eventEmitted(minted, 'ThisEventDoesNotExist');
 
         // truffleAssert.eventEmitted(minted, 'SolutionLength');
         // truffleAssert.eventEmitted(minted, 'TotalSupply');
-        // truffleAssert.eventEmitted(minted, 'SolutionAdded');
+        truffleAssert.eventEmitted(await this.contract.mintNewMKN(1, this.owner, proof.a, proof.b, proof.c, inputs), 'SolutionAdded');
     })
 
     // Test if an ERC721 token can be minted for contract - SolnSquareVerifier
     it('can mint a new ERC721 token for contract', async function () {
         await this.contract.mintNewMKN(1, this.owner, proof.a, proof.b, proof.c, inputs);
-        let balance = await this.contract.balanceOf(this.owner);
-        assert.equal(balance, 1, "Minting failed.");
+        assert.equal(await this.contract.balanceOf(this.owner), 1, "Minting failed.");
     })
 
-    // it('should not mint a token if a second correct proof is given.', async function () {
-    //     await this.contract.mintNewMKN(1, this.owner, proof.a, proof.b, proof.c, inputs);
+    it('should not mint a token if a second correct proof is given.', async function () {
+        await this.contract.mintNewMKN(1, this.owner, proof.a, proof.b, proof.c, inputs);
     //     let fail = false;
 
     //     try {
@@ -61,5 +64,6 @@ contract('TestSolnSquareVerifier', accounts => {
 
     //     let balance = await this.contract.balanceOf(this.owner)
     //     assert.equal(fail, true, "A second correct proof minted a token.")
-    // })
+        await truffleAssert.fails(this.contract.mintNewMKN(2, this.owner, proof.a, proof.b, proof.c, inputs))
+    })
 })
