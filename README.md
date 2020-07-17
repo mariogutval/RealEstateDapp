@@ -23,6 +23,7 @@ https://rinkeby.opensea.io/accounts/MrHyde96
 Install the required modules (node_modules, openzeppelin,...).
 
 Then, run the following commands:
+
     cd eth-contracts
     truffle test
 
